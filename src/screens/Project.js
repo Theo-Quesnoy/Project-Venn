@@ -1,25 +1,9 @@
 import { useMemo } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
-// import { db } from "../firebase";
-// import { doc, updateDoc } from "firebase/firestore";
-
 import Avatar from "../components/Avatar";
 import useGetAll from "../hooks/useGetAll";
 
 function Project({ title, participants = [], tags }) {
-  // const { proj } = useGetAll("projects");
-  // const updateProject = async () => {
-  //   const name = prompt("Nom du projet");
-  //   const tags = prompt("Tags");
-  //   //const memb = prompt("Ajouter un membre");
-
-  //   const projectRef = doc(db, "projects", proj.id);
-  //   const payload = {
-  //     title: name,
-  //     tags: tags,
-  //   };
-  //   await updateDoc(projectRef, payload);
-  // };
   const { data } = useGetAll("members");
   const avatars = useMemo(
     () =>
@@ -40,6 +24,10 @@ function Project({ title, participants = [], tags }) {
     [data, participants]
   );
 
+  const onNavigateUpdate = async () => {
+    navigation.navigate("Update");
+  };
+
   return (
     <View style={styles.root}>
       <Text style={styles.title}>{title}</Text>
@@ -52,7 +40,7 @@ function Project({ title, participants = [], tags }) {
       </View>
       <Text style={styles.title}>Tags : {tags}</Text>
       <View style={styles.footer}>
-        <Button title="Modifier le projet" />
+        <Button title="Modifier le projet" onPress={onNavigateUpdate} />
       </View>
     </View>
   );

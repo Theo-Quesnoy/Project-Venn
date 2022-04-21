@@ -1,62 +1,49 @@
 import { View, TextInput, StyleSheet, Dimensions, Button } from "react-native";
 import { db } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import useGetAll from "../hooks/useGetAll";
 import { useMemo, useState } from "react";
 
-function CreateProject(participants = []) {
-  const { data } = useGetAll("members");
-  const [valueName, setValueName] = useState("");
-  const [valueTag, setValueTag] = useState("");
+function UpdateProject(participants = [], { navigation }) {
+  const { proj } = useGetAll("projects");
+  const [valueTitle, setValueTitle] = useState("");
+  const [valueTags, setValueTags] = useState("");
   const [error, setError] = useState(false);
 
-  const onChange = (text) => {
+  const onChangeTitle = (text) => {
     setError(false);
-    setValueName(text);
+    setValueTitle(text);
   };
-  const onChangeTag = (text) => {
+
+  const onChangeTags = (text) => {
     setError(false);
-    setValueTag(text);
+    setValueTags(text);
   };
 
-  // const p = useMemo(
-  //   () =>
-  //     participants
-  //       .map((id) => {
-  //         const participant = data?.find((member) => member.id === id);
-  //         if (participant.lastname === "Quesnoy") {
-  //           return id;
-  //         }
-  //         return null;
-  //       })
-  //       .filter(Boolean),
-  //   [data, participants]
-  // );
-
-  const handleNew = async () => {
-    const collectionRef = collection(db, "projects");
-    const payload = { title: valueName, tags: valueTag };
-    await addDoc(collectionRef, payload);
-    console.log("projet créer");
-    alert("Projet crée");
+  const handleUpdate = async () => {
+    const projectRef = doc(db, "projects", proj.id);
+    const payload = { title: valueTitle, tags: valueTags };
+    await updateDoc(projectRef, payload);
+    console.log("projet modifié");
+    alert("Projet modifié");
+    navigation.navigate("Accueil");
   };
-
   return (
     <View style={styles.root}>
       <View style={styles.content}>
         <TextInput
           placeholder="Nom du projet"
           style={styles.input}
-          value={valueName}
-          onChangeText={onChange}
+          value={valueTitle}
+          onChangeText={onChangeTitle}
         />
       </View>
       <View style={styles.content}>
         <TextInput
           placeholder="Tags"
           style={styles.input}
-          value={valueTag}
-          onChangeText={onChangeTag}
+          value={valueTags}
+          onChangeText={onChangeTags}
         />
       </View>
       <View style={styles.content}>
@@ -66,13 +53,13 @@ function CreateProject(participants = []) {
         />
       </View>
       <View style={styles.actions}>
-        <Button title="Créer le projet" onPress={handleNew} />
+        <Button title="Créer le projet" onPress={handleUpdate} />
       </View>
     </View>
   );
 }
 
-export default CreateProject;
+export default UpdateProject;
 
 const styles = StyleSheet.create({
   root: {

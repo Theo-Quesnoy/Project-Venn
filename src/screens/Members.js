@@ -1,25 +1,13 @@
 import { View, ScrollView, StyleSheet } from "react-native";
-import { db } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
 import useGetAll from "../hooks/useGetAll";
 
 import data from "../../assets/data.json";
 import Avatar from "../components/Avatar";
 import Button from "../components/Button";
 
-function Members() {
-  const newMember = async () => {
-    const firstname = prompt("Prénom");
-    const lastname = prompt("Nom de famille");
-    const color = prompt("Couleur préférée");
-
-    const collectionRef = collection(db, "members");
-    const payload = {
-      firstname: firstname,
-      lastname: lastname,
-      favoriteColor: color,
-    };
-    await addDoc(collectionRef, payload);
+function Members({ navigation }) {
+  const onNavigateCreateMember = async () => {
+    navigation.navigate("CreateMember");
   };
 
   return (
@@ -37,7 +25,7 @@ function Members() {
           </View>
         ))}
         <View style={styles.footer}>
-          <Button title="Inviter" onPress={newMember} />
+          <Button title="Inviter" onPress={onNavigateCreateMember} />
         </View>
       </ScrollView>
     </View>
