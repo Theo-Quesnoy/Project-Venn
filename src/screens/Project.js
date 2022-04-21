@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, Linking } from "react-native";
 import Avatar from "../components/Avatar";
 import useGetAll from "../hooks/useGetAll";
 
-function Project({ title, participants = [], tags }) {
+function Project({ title, participants = [], tags, Github }) {
   const { data } = useGetAll("members");
   const avatars = useMemo(
     () =>
@@ -28,6 +28,10 @@ function Project({ title, participants = [], tags }) {
     navigation.navigate("Update");
   };
 
+  const handleGit = async () => {
+    await Linking.openURL(Github);
+  };
+
   return (
     <View style={styles.root}>
       <Text style={styles.title}>{title}</Text>
@@ -39,6 +43,10 @@ function Project({ title, participants = [], tags }) {
         ))}
       </View>
       <Text style={styles.title}>Tags : {tags}</Text>
+      <Text style={styles.title}>
+        Lien Git : {Github}
+        <Button title="Aller sur le git" onPress={handleGit} />
+      </Text>
       <View style={styles.footer}>
         <Button title="Modifier le projet" onPress={onNavigateUpdate} />
       </View>
