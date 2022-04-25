@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { View, Text, StyleSheet, Button, Linking } from "react-native";
+import { View, Text, StyleSheet, Linking, Button } from "react-native";
 import Avatar from "../components/Avatar";
 import useGetAll from "../hooks/useGetAll";
 
@@ -45,7 +45,7 @@ function Project({ title, participants = [], tags, Github }) {
       <Text style={styles.title}>Tags : {tags}</Text>
       <Text style={styles.title}>
         Lien Git : {Github}
-        <Button title="Aller sur le git" onPress={handleGit} />
+        <Button title="Aller sur le repo git" onPress={handleGit}></Button>
       </Text>
       <View style={styles.footer}>
         <Button title="Modifier le projet" onPress={onNavigateUpdate} />

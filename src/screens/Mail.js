@@ -1,7 +1,8 @@
 import * as MailComposer from "expo-mail-composer";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
-import { TouchableOpacity, View, Text, Alert, StyleSheet } from "react-native";
+import { View, Text, Alert, StyleSheet } from "react-native";
+import Button from "../components/Button";
 
 function Mail_Composer() {
   const [status, setStatus] = useState(null);
@@ -51,22 +52,26 @@ function Mail_Composer() {
     }
   };
   const showAlert = () =>
-    Alert.alert("Add a file", "Do you want to attach a file?", [
-      {
-        text: "No",
-        onPress: () => {
-          sendEmail([]);
+    Alert.alert(
+      "Ajouter une pièce jointe",
+      "Voulez-vous attacher une pièce jointe ?",
+      [
+        {
+          text: "Non",
+          onPress: () => {
+            sendEmail([]);
+          },
+          style: "Annuler",
         },
-        style: "cancel",
-      },
-      { text: "Yes", onPress: sendEmailWithAttachment },
-    ]);
+        { text: "Oui", onPress: sendEmailWithAttachment },
+      ]
+    );
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={showAlert}>
-        <Text>Send Email</Text>
-      </TouchableOpacity>
+      <Button title="Envoyer un mail" onPress={showAlert}>
+        <Text>Envoyer le mail</Text>
+      </Button>
       {status !== null && (
         <View>
           <Text>{status}</Text>

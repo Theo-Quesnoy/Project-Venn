@@ -4,12 +4,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import Members from "./Members";
 import ColorContext from "../ColorContext";
 import Projects from "./Projects";
 import Mail from "./Mail";
 import Creer from "./CreateProject";
+import Deconnexion from "./Identification";
 
 const Tab = createBottomTabNavigator();
 
@@ -65,6 +67,15 @@ function Home() {
           ),
         }}
       />
+      {/* <Tab.Screen
+        name="Logout"
+        component={Deconnexion}
+        options={{
+          tabBarIcon: (props) => (
+            <MaterialIcons name="logout" size={24} color="black" {...props} />
+          ),
+        }}
+      /> */}
     </Tab.Navigator>
   );
 }

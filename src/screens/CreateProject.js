@@ -4,19 +4,35 @@ import { collection, addDoc } from "firebase/firestore";
 import useGetAll from "../hooks/useGetAll";
 import { useMemo, useState } from "react";
 
-function CreateProject(participants = []) {
+function CreateProject({ participants = [] }) {
   const { data } = useGetAll("members");
   const [valueName, setValueName] = useState("");
-  const [valueTag, setValueTag] = useState("");
+  const [valueTag1, setValueTag1] = useState("");
+  const [valueTag2, setValueTag2] = useState("");
+  const [valueTag3, setValueTag3] = useState("");
+  const [valueMember, setValueMember] = useState("");
   const [error, setError] = useState(false);
 
   const onChange = (text) => {
     setError(false);
     setValueName(text);
   };
-  const onChangeTag = (text) => {
+  const onChangeTag1 = (text) => {
     setError(false);
-    setValueTag(text);
+    setValueTag1(text);
+  };
+  const onChangeTag2 = (text) => {
+    setError(false);
+    setValueTag2(text);
+  };
+  const onChangeTag3 = (text) => {
+    setError(false);
+    setValueTag3(text);
+  };
+
+  const onChangeMember = (text) => {
+    setError(false);
+    setValueMember(text);
   };
 
   // const p = useMemo(
@@ -35,9 +51,11 @@ function CreateProject(participants = []) {
 
   const handleNew = async () => {
     const collectionRef = collection(db, "projects");
-    const payload = { title: valueName, tags: valueTag };
+    const payload = {
+      title: valueName,
+      tags: [valueTag1, valueTag2, valueTag3],
+    };
     await addDoc(collectionRef, payload);
-    console.log("projet créer");
     alert("Projet crée");
   };
 
@@ -55,14 +73,32 @@ function CreateProject(participants = []) {
         <TextInput
           placeholder="Tags"
           style={styles.input}
-          value={valueTag}
-          onChangeText={onChangeTag}
+          value={valueTag1}
+          onChangeText={onChangeTag1}
+        />
+      </View>
+      <View style={styles.content}>
+        <TextInput
+          placeholder="Tags"
+          style={styles.input}
+          value={valueTag2}
+          onChangeText={onChangeTag2}
+        />
+      </View>
+      <View style={styles.content}>
+        <TextInput
+          placeholder="Tags"
+          style={styles.input}
+          value={valueTag3}
+          onChangeText={onChangeTag3}
         />
       </View>
       <View style={styles.content}>
         <TextInput
           placeholder="Nom de famille du/des participant(s)"
           style={styles.input}
+          value={valueMember}
+          onChangeText={onChangeMember}
         />
       </View>
       <View style={styles.actions}>
