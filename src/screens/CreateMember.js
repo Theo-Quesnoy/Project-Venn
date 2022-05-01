@@ -36,7 +36,7 @@ function CreateMember({ navigation }) {
     await addDoc(collectionRef, payload);
     console.log("membre créé");
     alert("Membre créé");
-    navigation.navigate("Accueil");
+    navigation.navigate("Identification");
   };
 
   // const onNavigateMembers = async () => {

@@ -49,6 +49,10 @@ function Identification({ navigation }) {
   const onNavigateToHome = () => {
     navigation.navigate("Accueil");
   };
+
+  const onNavigateCreateMember = async () => {
+    navigation.navigate("CreateMember");
+  };
   const header = (
     <View style={styles.header}>
       <Text style={styles.title}>{app.expo.name}</Text>
@@ -83,7 +87,7 @@ function Identification({ navigation }) {
             <Text style={styles.error}>Désolé, tu n'es pas enregistré·e.</Text>
           </View>
           <View style={styles.actions}>
-            <Button title="S'enregistrer" />
+            <Button title="S'enregistrer" onPress={onNavigateCreateMember} />
           </View>
         </View>
       </View>

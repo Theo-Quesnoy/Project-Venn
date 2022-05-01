@@ -42,6 +42,7 @@ function Project({ title, participants = [], tags, Github }) {
           </View>
         ))}
       </View>
+      <Text style={styles.title}>participants : {participants}</Text>
       <Text style={styles.title}>Tags : {tags}</Text>
       <Text style={styles.title}>
         Lien Git : {Github}

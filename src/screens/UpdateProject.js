@@ -7,7 +7,14 @@ import { useMemo, useState } from "react";
 function UpdateProject(participants = [], { navigation }) {
   const { proj } = useGetAll("projects");
   const [valueTitle, setValueTitle] = useState("");
-  const [valueTags, setValueTags] = useState("");
+  const [valueTag1, setValueTag1] = useState("");
+  const [valueTag2, setValueTag2] = useState("");
+  const [valueTag3, setValueTag3] = useState("");
+  const [valueMember1, setValueMember1] = useState("");
+  const [valueMember2, setValueMember2] = useState("");
+  const [valueMember3, setValueMember3] = useState("");
+  const [valueMember4, setValueMember4] = useState("");
+  const [valueGitHub, setValueGitHub] = useState("");
   const [error, setError] = useState(false);
 
   const onChangeTitle = (text) => {
@@ -15,14 +22,48 @@ function UpdateProject(participants = [], { navigation }) {
     setValueTitle(text);
   };
 
-  const onChangeTags = (text) => {
+  const onChangeTag1 = (text) => {
     setError(false);
-    setValueTags(text);
+    setValueTag1(text);
+  };
+  const onChangeTag2 = (text) => {
+    setError(false);
+    setValueTag2(text);
+  };
+  const onChangeTag3 = (text) => {
+    setError(false);
+    setValueTag3(text);
+  };
+
+  const onChangeMember1 = (text) => {
+    setError(false);
+    setValueMember1(text);
+  };
+  const onChangeMember2 = (text) => {
+    setError(false);
+    setValueMember2(text);
+  };
+  const onChangeMember3 = (text) => {
+    setError(false);
+    setValueMember3(text);
+  };
+  const onChangeMember4 = (text) => {
+    setError(false);
+    setValueMember4(text);
+  };
+  const onChangeGitHub = (text) => {
+    setError(false);
+    setValueGitHub(text);
   };
 
   const handleUpdate = async () => {
-    const projectRef = doc(db, "projects", proj.id);
-    const payload = { title: valueTitle, tags: valueTags };
+    const projectRef = doc(db, "projects", "dQYDbGkVL3tw0qUkHJS3");
+    const payload = {
+      title: valueTitle,
+      tags: [valueTag1, valueTag2, valueTag3],
+      participants: [valueMember1, valueMember2, valueMember3, valueMember4],
+      Github: valueGitHub,
+    };
     await updateDoc(projectRef, payload);
     console.log("projet modifié");
     alert("Projet modifié");
@@ -42,18 +83,68 @@ function UpdateProject(participants = [], { navigation }) {
         <TextInput
           placeholder="Tags"
           style={styles.input}
-          value={valueTags}
-          onChangeText={onChangeTags}
+          value={valueTag1}
+          onChangeText={onChangeTag1}
         />
       </View>
       <View style={styles.content}>
         <TextInput
-          placeholder="Nom de famille du/des participant(s)"
+          placeholder="Tags"
           style={styles.input}
+          value={valueTag2}
+          onChangeText={onChangeTag2}
+        />
+      </View>
+      <View style={styles.content}>
+        <TextInput
+          placeholder="Tags"
+          style={styles.input}
+          value={valueTag3}
+          onChangeText={onChangeTag3}
+        />
+      </View>
+      <View style={styles.content}>
+        <TextInput
+          placeholder="Nom de famille du participant"
+          style={styles.input}
+          value={valueMember1}
+          onChangeText={onChangeMember1}
+        />
+      </View>
+      <View style={styles.content}>
+        <TextInput
+          placeholder="Nom de famille du participant"
+          style={styles.input}
+          value={valueMember2}
+          onChangeText={onChangeMember2}
+        />
+      </View>
+      <View style={styles.content}>
+        <TextInput
+          placeholder="Nom de famille du participant"
+          style={styles.input}
+          value={valueMember3}
+          onChangeText={onChangeMember3}
+        />
+      </View>
+      <View style={styles.content}>
+        <TextInput
+          placeholder="Nom de famille du participant"
+          style={styles.input}
+          value={valueMember4}
+          onChangeText={onChangeMember4}
+        />
+      </View>
+      <View style={styles.content}>
+        <TextInput
+          placeholder="Lien du Git"
+          style={styles.input}
+          value={valueGitHub}
+          onChangeText={onChangeGitHub}
         />
       </View>
       <View style={styles.actions}>
-        <Button title="Créer le projet" onPress={handleUpdate} />
+        <Button title="Modifier le projet" onPress={handleUpdate} />
       </View>
     </View>
   );

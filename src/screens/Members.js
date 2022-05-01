@@ -1,54 +1,39 @@
-import { View, ScrollView, StyleSheet } from "react-native";
-import { useMemo } from "react";
-import useGetAll from "../hooks/useGetAll";
+import { View, ScrollView, StyleSheet, Text } from "react-native";
 
-import data from "../../assets/data.json";
 import Avatar from "../components/Avatar";
 import Button from "../components/Button";
+import useGetAll from "../hooks/useGetAll";
 
-function Members({ membres = [] }, { navigation }) {
+function Members({ navigation }) {
   const onNavigateCreateMember = async () => {
     navigation.navigate("CreateMember");
   };
-
-  const { dataMembers } = useGetAll("members");
-  const listMembers = useMemo(
-    () =>
-      membres
-        .map((id) => {
-          const member = dataMembers?.find((m) => m.firstname);
-          if (member) {
-            return {
-              id,
-              label: member.firstname[0],
-              color: member.favoriteColor,
-            };
-          }
-          return null;
-        })
-        .filter(Boolean),
-    [dataMembers, membres]
-  );
-
+  const { loading, error, data } = useGetAll("members");
+  if (loading) {
+    return (
+      <View style={styles.root}>
+        <Text>Chargement...</Text>
+      </View>
+    );
+  }
+  if (error || !data?.length > 0) {
+    return (
+      <View style={styles.root}>
+        <Text>Pas de membre.</Text>
+      </View>
+    );
+  }
   return (
     <View>
       <ScrollView contentContainerStyle={styles.list}>
-        {listMembers.map((list) => (
-          <View key={list.id} style={styles.avatar}>
-            <Avatar label={list.label} color={list.color} />
-          </View>
-        ))}
-        {/* {data.members.map((member) => (
-          <View
-            style={styles.avatar}
-            key={`${member.firstname}${member.lastname}`}
-          >
+        {data.map((member) => (
+          <View style={styles.avatar} key={member.id}>
             <Avatar
               label={member.firstname[0].toLocaleUpperCase()}
               color={member.favoriteColor}
             />
           </View>
-        ))} */}
+        ))}
         <View style={styles.footer}>
           <Button title="Inviter" onPress={onNavigateCreateMember} />
         </View>

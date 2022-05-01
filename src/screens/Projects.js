@@ -1,14 +1,10 @@
-import { View, Text, StyleSheet, FlatList, Button } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
+import React from "react";
 import useGetAll from "../hooks/useGetAll";
 import Project from "./Project";
 
 function Projects() {
   const { loading, error, data } = useGetAll("projects");
-  const header = (
-    <View style={styles.header}>
-      <Button title="rafraicher les projets" />
-    </View>
-  );
   if (loading) {
     return (
       <View style={styles.root}>
@@ -26,7 +22,6 @@ function Projects() {
   const renderItem = ({ item }) => <Project {...item} />;
   return (
     <View style={styles.root}>
-      {header}
       <FlatList
         data={data}
         renderItem={renderItem}

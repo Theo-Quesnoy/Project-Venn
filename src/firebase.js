@@ -6,7 +6,6 @@ import {
   getFirestore,
   query,
   getDocFromCache,
-  updateDoc,
 } from "firebase/firestore";
 
 const config = {
