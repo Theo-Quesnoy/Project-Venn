@@ -1,11 +1,16 @@
-import { TextInput, Button, View, StyleSheet, Dimensions } from "react-native";
+import {
+  TextInput,
+  Button,
+  View,
+  StyleSheet,
+  Dimensions,
+  Alert,
+} from "react-native";
 import { useState } from "react";
-import useGetAll from "../hooks/useGetAll";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
 
 function CreateMember({ navigation }) {
-  const { data } = useGetAll("members");
   const [valueFirstName, setFirstName] = useState("");
   const [valueLastName, setLastName] = useState("");
   const [valueColor, setValueColor] = useState("");
@@ -35,13 +40,9 @@ function CreateMember({ navigation }) {
     };
     await addDoc(collectionRef, payload);
     console.log("membre créé");
-    alert("Membre créé");
-    navigation.navigate("Identification");
+    Alert.alert("Ajouter un membre", "Membre ajouté");
+    navigation.navigate("Membres");
   };
-
-  // const onNavigateMembers = async () => {
-  //   navigation.navigate("Members");
-  // };
 
   return (
     <View style={styles.root}>

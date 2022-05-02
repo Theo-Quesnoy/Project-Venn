@@ -5,11 +5,13 @@ import {
   Dimensions,
   Button,
   ScrollView,
+  Alert,
 } from "react-native";
+import Avatar from "../components/Avatar";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
 import useGetAll from "../hooks/useGetAll";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 function CreateProject({ participants = [] }) {
   const { data } = useGetAll("members");
@@ -17,10 +19,11 @@ function CreateProject({ participants = [] }) {
   const [valueTag1, setValueTag1] = useState("");
   const [valueTag2, setValueTag2] = useState("");
   const [valueTag3, setValueTag3] = useState("");
-  const [valueMember1, setValueMember1] = useState("");
-  const [valueMember2, setValueMember2] = useState("");
-  const [valueMember3, setValueMember3] = useState("");
-  const [valueMember4, setValueMember4] = useState("");
+  const [participant, setValueParticipant] = useState("");
+  const [participant2, setValueParticipant2] = useState("");
+  const [participant3, setValueParticipant3] = useState("");
+  const [participant4, setValueParticipant4] = useState("");
+  const [setParticipant, setDisplayParticipants] = useState("");
   const [valueGitHub, setValueGitHub] = useState("");
   const [error, setError] = useState(false);
 
@@ -41,52 +44,115 @@ function CreateProject({ participants = [] }) {
     setValueTag3(text);
   };
 
-  const onChangeMember1 = (text) => {
+  const onChangeParticipant = (text) => {
     setError(false);
-    setValueMember1(text);
+    setValueParticipant(text);
   };
-  const onChangeMember2 = (text) => {
+
+  const onChangeParticipant2 = (text) => {
     setError(false);
-    setValueMember2(text);
+    setValueParticipant2(text);
   };
-  const onChangeMember3 = (text) => {
+
+  const onChangeParticipant3 = (text) => {
     setError(false);
-    setValueMember3(text);
+    setValueParticipant3(text);
   };
-  const onChangeMember4 = (text) => {
+
+  const onChangeParticipant4 = (text) => {
     setError(false);
-    setValueMember4(text);
+    setValueParticipant4(text);
   };
+
   const onChangeGitHub = (text) => {
     setError(false);
     setValueGitHub(text);
   };
 
-  // const p = useMemo(
-  //   () =>
-  //     participants
-  //       .map((id) => {
-  //         const participant = data?.find((member) => member.id === id);
-  //         if (valueMember1 === participant.lastname) {
-  //           setValueMember1(participant.id);
-  //           return id;
-  //         }
-  //         return null;
-  //       })
-  //       .filter(Boolean),
-  //   [data, participants, setValueMember1, valueMember1]
-  // );
+  const isMember = () => {
+    if (participant.length > 0) {
+      const found = data.find(({ lastname }) =>
+        participant.match(new RegExp(`(${lastname})`, "i"))
+      );
+      if (participants.length > 0) {
+        const added = participants.find((Id) => Id === found.id);
+        if (added) {
+          setError("Vous avez dejà ajouté cet utilisateur.");
+          return false;
+        }
+      }
+      participants.push(found.id);
+      console.log(participants);
+      console.log(participants);
+    }
+    if (participant2.length > 0) {
+      const found = data.find(({ lastname }) =>
+        participant2.match(new RegExp(`(${lastname})`, "i"))
+      );
+      if (participants.length > 0) {
+        const added = participants.find((Id) => Id === found.id);
+        if (added) {
+          setError("Vous avez dejà ajouté cet utilisateur.");
+          return false;
+        }
+      }
+      participants.push(found.id);
+      console.log(participants);
+      console.log(participants);
+    }
+    if (participant3.length > 0) {
+      const found = data.find(({ lastname }) =>
+        participant3.match(new RegExp(`(${lastname})`, "i"))
+      );
+      if (participants.length > 0) {
+        const added = participants.find((Id) => Id === found.id);
+        if (added) {
+          setError("Vous avez dejà ajouté cet utilisateur.");
+          return false;
+        }
+      }
+      participants.push(found.id);
+    }
+    if (participant4.length > 0) {
+      const found = data.find(({ lastname }) =>
+        participant4.match(new RegExp(`(${lastname})`, "i"))
+      );
+      if (participants.length > 0) {
+        const added = participants.find((Id) => Id === found.id);
+        if (added) {
+          setError("Vous avez dejà ajouté cet utilisateur.");
+          return false;
+        }
+      }
+      participants.push(found.id);
+      console.log(participants);
+    }
+  };
+
+  const addParticipant = () => {
+    if (isMember()) {
+      console.log(participants);
+      setDisplayParticipants(
+        participants.map((item) => (
+          <View style={styles.avatar} key={item}>
+            <Avatar label={item[0].toLocaleUpperCase()} />
+          </View>
+        ))
+      );
+    }
+    Alert.alert("Ajouter un membre au projet", "Membre(s) ajouté(s)");
+  };
 
   const handleNew = async () => {
     const collectionRef = collection(db, "projects");
     const payload = {
       title: valueName,
       tags: [valueTag1, valueTag2, valueTag3],
-      participants: [valueMember1, valueMember2, valueMember3, valueMember4],
+      participants: participants,
       Github: valueGitHub,
     };
     await addDoc(collectionRef, payload);
-    alert("Projet créé");
+    Alert.alert("Création de projet", "Projet créé");
   };
 
   return (
@@ -128,32 +194,28 @@ function CreateProject({ participants = [] }) {
           <TextInput
             placeholder="Nom de famille du participant"
             style={styles.input}
-            value={valueMember1}
-            onChangeText={onChangeMember1}
+            onChangeText={onChangeParticipant}
           />
         </View>
         <View style={styles.content}>
           <TextInput
             placeholder="Nom de famille du participant"
             style={styles.input}
-            value={valueMember2}
-            onChangeText={onChangeMember2}
+            onChangeText={onChangeParticipant2}
           />
         </View>
         <View style={styles.content}>
           <TextInput
             placeholder="Nom de famille du participant"
             style={styles.input}
-            value={valueMember3}
-            onChangeText={onChangeMember3}
+            onChangeText={onChangeParticipant3}
           />
         </View>
         <View style={styles.content}>
           <TextInput
             placeholder="Nom de famille du participant"
             style={styles.input}
-            value={valueMember4}
-            onChangeText={onChangeMember4}
+            onChangeText={onChangeParticipant4}
           />
         </View>
         <View style={styles.content}>
@@ -166,6 +228,9 @@ function CreateProject({ participants = [] }) {
         </View>
         <View style={styles.actions}>
           <Button title="Créer le projet" onPress={handleNew} />
+        </View>
+        <View style={styles.actions}>
+          <Button title="Ajouter les participants" onPress={addParticipant} />
         </View>
       </ScrollView>
     </View>
