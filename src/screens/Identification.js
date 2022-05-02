@@ -106,6 +106,9 @@ function Identification({ navigation }) {
         <View style={styles.actions}>
           <Button title="S'identifier" onPress={onPress} />
         </View>
+        <View style={styles.actions}>
+          <Button title="S'enregistrer" onPress={onNavigateCreateMember} />
+        </View>
       </View>
     </View>
   );

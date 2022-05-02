@@ -41,7 +41,7 @@ function CreateMember({ navigation }) {
     await addDoc(collectionRef, payload);
     console.log("membre créé");
     Alert.alert("Ajouter un membre", "Membre ajouté");
-    navigation.navigate("Membres");
+    navigation.navigate("Identification");
   };
 
   return (
