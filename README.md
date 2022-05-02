@@ -19,7 +19,7 @@ FIREBASE_PROJECT_ID=venn-8b660
 FIREBASE_APP_ID=1:97887840676:web:22835d235a82b932e0f931
 ```
 
-Installer également l'application [ExpoGo]("https://play.google.com/store/apps/details?id=host.exp.exponent&gl=FR") sur votre téléphone pour pouvoir utiliser l'application.
+Installer également l'application [ExpoGo](https://play.google.com/store/apps/details?id=host.exp.exponent&gl=FR) sur votre téléphone pour pouvoir utiliser l'application.
 
 Une fois tout bien configuré et installé, vous pourrez lancer le serveur avec la commande `yarn start`.
 
@@ -30,4 +30,4 @@ Attention de ne pas mettre de majuscule lorsque que vous remplissez le champ de 
 
 Connectez vous ensuite avec votre compte et vous pouvez utiliser l'application.
 
-Lien de l'application publié :
+[Lien de l'application publié](https://expo.dev/@theo982002/venn-project?serviceType=classic&distribution=expo-go)
